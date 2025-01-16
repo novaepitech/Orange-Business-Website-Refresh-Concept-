@@ -714,20 +714,20 @@ const caseStudies = [
         client: "Grande Distribution",
         description:
             "Migration complète vers le cloud et modernisation des applications",
-        image: "/cloud-networking-orange-business.jpg.webp",
+        image: "/cloud-networking-orange-business.webp",
     },
     {
         title: "IA & Analytics",
         client: "Industrie Manufacturière",
         description:
             "Optimisation de la production grâce à l'intelligence artificielle",
-        image: "/shutterstock_156907793.jpg.webp",
+        image: "/shutterstock_156907793.webp",
     },
     {
         title: "Digitalisation",
         client: "Services Financiers",
         description: "Création d'une plateforme digitale innovante",
-        image: "/beneficiez-d'une-infrastructure-numerique-evolutive-et-securisee-orange-business.jpg.webp",
+        image: "/beneficiez-d'une-infrastructure-numerique-evolutive-et-securisee-orange-business.webp",
     },
 ];
 
