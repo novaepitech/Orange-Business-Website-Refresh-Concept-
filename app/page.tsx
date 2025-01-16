@@ -161,6 +161,8 @@ function Navbar({
                                 alt="Orange Business"
                                 width={200}
                                 height={200}
+                                priority={true}
+                                fetchPriority="high"
                             />
                         </Link>
                     </div>
