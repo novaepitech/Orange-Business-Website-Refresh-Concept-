@@ -756,7 +756,7 @@ function CaseStudies() {
                         >
                             <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden">
                                 <div className="h-48 overflow-hidden">
-                                    <Image
+                                    <img
                                         src={study.image || "/placeholder.svg"}
                                         alt={study.title}
                                         className="w-full h-full object-cover transition-transform hover:scale-105"
