@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -31,13 +31,20 @@ import { cn } from "@/lib/utils";
 import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
+    CardDescription,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default function Home() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -105,12 +112,11 @@ export default function Home() {
                 baseBlueClasses={baseBlueClasses}
                 iconBlueClasses={iconBlueClasses}
             />
-            <Partners baseBlueClasses={baseBlueClasses} />
             <Testimonials
                 baseBlueClasses={baseBlueClasses}
                 iconBlueClasses={iconBlueClasses}
             />
-            <CaseStudies baseBlueClasses={baseBlueClasses} />
+            <CaseStudies />
             <Sustainability
                 baseBlueClasses={baseBlueClasses}
                 iconBlueClasses={iconBlueClasses}
@@ -151,7 +157,7 @@ function Navbar({
                         <Link href="/" className="flex-shrink-0">
                             <Image
                                 className="h-[80px] w-auto"
-                                src={logoSrc}
+                                src={logoSrc || "/placeholder.svg"}
                                 alt="Orange Business"
                                 width={200}
                                 height={200}
@@ -386,6 +392,17 @@ function Expertise({
     baseBlueClasses: (classes: string) => string;
     iconBlueClasses: (classes: string) => string;
 }) {
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const nextSlide = useCallback(() => {
+        setActiveIndex((prevIndex) => (prevIndex + 1) % expertiseAreas.length);
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+        return () => clearInterval(interval);
+    }, [nextSlide]);
+
     return (
         <section id="expertise" className="py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -401,43 +418,44 @@ function Expertise({
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {expertiseAreas.map((area, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                        >
-                            <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">
-                                <CardHeader className="flex-none">
-                                    {" "}
-                                    {/* Ajout de flex-none */}
-                                    <div className="flex items-center gap-4">
-                                        {" "}
-                                        {/* Div pour regrouper icône et titre */}
-                                        <area.icon
-                                            className={iconBlueClasses(
-                                                "h-8 w-8 text-orange-600",
-                                            )}
-                                        />
-                                        <CardTitle className="">
-                                            {area.title}
-                                        </CardTitle>
-                                    </div>
-                                </CardHeader>
-                                <CardContent className="py-4 flex-grow">
-                                    {" "}
-                                    {/* Ajout de padding et flex-grow */}
-                                    <CardDescription>
-                                        {area.description}
-                                    </CardDescription>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    ))}
-                </div>
+                <Carousel className="w-full max-w-5xl mx-auto">
+                    <CarouselContent>
+                        {expertiseAreas.map((area, index) => (
+                            <CarouselItem
+                                key={index}
+                                className="md:basis-1/2 lg:basis-1/3"
+                            >
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                >
+                                    <Card className="h-full flex flex-col hover:shadow-lg transition-shadow m-2">
+                                        <CardHeader className="flex-none">
+                                            <div className="flex items-center gap-4">
+                                                <area.icon
+                                                    className={iconBlueClasses(
+                                                        "h-8 w-8 text-orange-600",
+                                                    )}
+                                                />
+                                                <CardTitle>
+                                                    {area.title}
+                                                </CardTitle>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent className="py-4 flex-grow">
+                                            <p className="text-gray-600">
+                                                {area.description}
+                                            </p>
+                                        </CardContent>
+                                    </Card>
+                                </motion.div>
+                            </CarouselItem>
+                        ))}
+                    </CarouselContent>
+                    <CarouselPrevious />
+                    <CarouselNext />
+                </Carousel>
 
                 <div className="mt-16 text-center">
                     <Button
@@ -512,18 +530,22 @@ function Solutions({
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
                         >
-                            <Card className="h-full hover:shadow-lg transition-shadow">
-                                <CardHeader>
-                                    <solution.icon
-                                        className={iconBlueClasses(
-                                            "h-10 w-10 text-orange-600",
-                                        )}
-                                    />
-                                    <CardTitle className="ml-4">
-                                        {solution.title}
-                                    </CardTitle>
+                            <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">
+                                <CardHeader className="flex-none pb-0">
+                                    {" "}
+                                    {/* Suppression du padding bottom */}
+                                    <div className="flex items-center gap-4">
+                                        <solution.icon
+                                            className={iconBlueClasses(
+                                                "h-10 w-10 text-orange-600",
+                                            )}
+                                        />
+                                        <CardTitle>{solution.title}</CardTitle>
+                                    </div>
                                 </CardHeader>
-                                <CardContent>
+                                <CardContent className="py-4 flex-grow">
+                                    {" "}
+                                    {/* Ajout de padding et flex-grow */}
                                     <CardDescription>
                                         {solution.description}
                                     </CardDescription>
@@ -602,72 +624,6 @@ function BrandValues({
                             éco-responsables.
                         </p>
                     </div>
-                </div>
-            </div>
-        </section>
-    );
-}
-
-const partners = [
-    {
-        name: "Microsoft",
-        logo: "/microsoft-logo.svg",
-    },
-    {
-        name: "AWS",
-        logo: "/aws-logo.svg",
-    },
-    {
-        name: "Google Cloud",
-        logo: "/google-cloud-logo.svg",
-    },
-    {
-        name: "Cisco",
-        logo: "/cisco-logo.svg",
-    },
-    {
-        name: "SAP",
-        logo: "/sap-logo.svg",
-    },
-    {
-        name: "IBM",
-        logo: "/ibm-logo.svg",
-    },
-];
-
-function Partners() {
-    return (
-        <section className="py-24 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        Nos Partenaires Technologiques
-                    </h2>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Des alliances stratégiques pour vous offrir les
-                        meilleures solutions
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center">
-                    {partners.map((partner, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                            className="flex justify-center"
-                        >
-                            <Image
-                                src={partner.logo || "/placeholder.svg"}
-                                alt={partner.name}
-                                className="h-12 object-contain filter grayscale hover:grayscale-0 transition-all"
-                                width={200}
-                                height={200}
-                            />
-                        </motion.div>
-                    ))}
                 </div>
             </div>
         </section>
