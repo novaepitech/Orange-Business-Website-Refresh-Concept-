@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -9,7 +9,6 @@ import {
     Phone,
     Mail,
     MapPin,
-    Database,
     Network,
     Brain,
     Lock,
@@ -17,8 +16,6 @@ import {
     Users,
     Cloud,
     Shield,
-    Cpu,
-    LineChart,
     Leaf,
     Recycle,
     Battery,
@@ -40,26 +37,111 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 
 export default function Home() {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [logoSrc, setLogoSrc] = useState(
+        "/Orange_Business_RGB_Master_Logo_Black_Text.png",
+    );
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoaded(true);
+            setLogoSrc("/New_Orange_Business_Logo_Black_Text.png");
+        }, 500); // 0.5 second delay
+
+        return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+    }, []);
+
+    const baseBlueClasses = (classes: string) =>
+        classes
+            .replace(
+                /text-orange-\d+/g,
+                isLoaded
+                    ? "text-blue-500 transition-colors duration-1000"
+                    : "text-orange-500",
+            )
+            .replace(
+                /bg-orange-\d+/g,
+                isLoaded
+                    ? "bg-blue-500 transition-colors duration-1000"
+                    : "bg-orange-500",
+            )
+            .replace(
+                /hover:text-orange-\d+/g,
+                isLoaded
+                    ? "hover:text-blue-600 transition-colors duration-1000"
+                    : "hover:text-orange-600",
+            )
+            .replace(
+                /hover:bg-orange-\d+/g,
+                isLoaded
+                    ? "hover:bg-blue-600 transition-colors duration-1000"
+                    : "hover:bg-orange-600",
+            );
+
+    const iconBlueClasses = (classes: string) =>
+        classes.replace(
+            /text-orange-\d+/g,
+            isLoaded
+                ? "text-blue-500 transition-colors duration-1000"
+                : "text-orange-500",
+        );
+
     return (
         <main className="min-h-screen">
-            <Navbar />
-            <Hero />
-            <Solutions />
-            <Expertise />
-            <Partners />
-            <Testimonials />
-            <CaseStudies />
-            <Sustainability />
-            <Contact />
-            <Footer />
+            <Navbar baseBlueClasses={baseBlueClasses} logoSrc={logoSrc} />
+            <Hero baseBlueClasses={baseBlueClasses} />
+            <Expertise
+                baseBlueClasses={baseBlueClasses}
+                iconBlueClasses={iconBlueClasses}
+            />
+            <Solutions
+                baseBlueClasses={baseBlueClasses}
+                iconBlueClasses={iconBlueClasses}
+            />
+            <BrandValues
+                baseBlueClasses={baseBlueClasses}
+                iconBlueClasses={iconBlueClasses}
+            />
+            <Partners baseBlueClasses={baseBlueClasses} />
+            <Testimonials
+                baseBlueClasses={baseBlueClasses}
+                iconBlueClasses={iconBlueClasses}
+            />
+            <CaseStudies baseBlueClasses={baseBlueClasses} />
+            <Sustainability
+                baseBlueClasses={baseBlueClasses}
+                iconBlueClasses={iconBlueClasses}
+            />
+            <Contact baseBlueClasses={baseBlueClasses} />
+            <Footer baseBlueClasses={baseBlueClasses} />
         </main>
     );
 }
 
-function Navbar() {
+function Navbar({
+    baseBlueClasses,
+    logoSrc,
+}: {
+    baseBlueClasses: (classes: string) => string;
+    logoSrc: string;
+}) {
     const [isOpen, setIsOpen] = useState(false);
+    const [logoOpacity, setLogoOpacity] = useState(1);
+
+    useEffect(() => {
+        if (logoSrc === "/New_Orange_Business_Logo_Black_Text.png") {
+            // Start the fade-out
+            setLogoOpacity(0);
+
+            // After the fade-out, immediately start the fade-in
+            setTimeout(() => {
+                setLogoOpacity(1);
+            }, 500); // Adjust this delay to match the CSS transition duration
+        }
+    }, [logoSrc]);
 
     return (
         <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
@@ -67,10 +149,12 @@ function Navbar() {
                 <div className="flex justify-between h-16">
                     <div className="flex items-center">
                         <Link href="/" className="flex-shrink-0">
-                            <img
-                                className="h-8 w-auto"
-                                src="/orange-business-logo.svg"
+                            <Image
+                                className="h-[80px] w-auto"
+                                src={logoSrc}
                                 alt="Orange Business"
+                                width={200}
+                                height={200}
                             />
                         </Link>
                     </div>
@@ -78,31 +162,41 @@ function Navbar() {
                     <div className="hidden md:flex md:items-center md:space-x-8">
                         <Link
                             href="#solutions"
-                            className="text-gray-700 hover:text-orange-600"
+                            className={baseBlueClasses(
+                                "text-gray-700 hover:text-orange-600",
+                            )}
                         >
                             Solutions
                         </Link>
                         <Link
                             href="#expertise"
-                            className="text-gray-700 hover:text-orange-600"
+                            className={baseBlueClasses(
+                                "text-gray-700 hover:text-orange-600",
+                            )}
                         >
                             Expertise
                         </Link>
                         <Link
                             href="#case-studies"
-                            className="text-gray-700 hover:text-orange-600"
+                            className={baseBlueClasses(
+                                "text-gray-700 hover:text-orange-600",
+                            )}
                         >
                             Réalisations
                         </Link>
                         <Link
                             href="#sustainability"
-                            className="text-gray-700 hover:text-orange-600"
+                            className={baseBlueClasses(
+                                "text-gray-700 hover:text-orange-600",
+                            )}
                         >
                             RSE
                         </Link>
                         <Button
                             variant="default"
-                            className="bg-orange-600 hover:bg-orange-700"
+                            className={baseBlueClasses(
+                                "bg-orange-600 hover:bg-orange-700",
+                            )}
                             onClick={() => (window.location.href = "#contact")}
                         >
                             Contactez-nous
@@ -112,7 +206,9 @@ function Navbar() {
                     <div className="flex md:hidden">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-xl text-gray-700 hover:text-orange-600"
+                            className={baseBlueClasses(
+                                "inline-flex items-center justify-center p-2 rounded-xl text-gray-700 hover:text-orange-600",
+                            )}
                         >
                             {isOpen ? (
                                 <X className="h-6 w-6" />
@@ -129,35 +225,45 @@ function Navbar() {
                 <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                     <Link
                         href="#solutions"
-                        className="block px-3 py-2 text-gray-700 hover:text-orange-600"
+                        className={baseBlueClasses(
+                            "block px-3 py-2 text-gray-700 hover:text-orange-600",
+                        )}
                         onClick={() => setIsOpen(false)}
                     >
                         Solutions
                     </Link>
                     <Link
                         href="#expertise"
-                        className="block px-3 py-2 text-gray-700 hover:text-orange-600"
+                        className={baseBlueClasses(
+                            "block px-3 py-2 text-gray-700 hover:text-orange-600",
+                        )}
                         onClick={() => setIsOpen(false)}
                     >
                         Expertise
                     </Link>
                     <Link
                         href="#case-studies"
-                        className="block px-3 py-2 text-gray-700 hover:text-orange-600"
+                        className={baseBlueClasses(
+                            "block px-3 py-2 text-gray-700 hover:text-orange-600",
+                        )}
                         onClick={() => setIsOpen(false)}
                     >
                         Réalisations
                     </Link>
                     <Link
                         href="#sustainability"
-                        className="block px-3 py-2 text-gray-700 hover:text-orange-600"
+                        className={baseBlueClasses(
+                            "block px-3 py-2 text-gray-700 hover:text-orange-600",
+                        )}
                         onClick={() => setIsOpen(false)}
                     >
                         RSE
                     </Link>
                     <Button
                         variant="default"
-                        className="w-full bg-orange-600 hover:bg-orange-700 mt-4"
+                        className={baseBlueClasses(
+                            "w-full bg-orange-600 hover:bg-orange-700 mt-4",
+                        )}
                         onClick={() => {
                             setIsOpen(false);
                             window.location.href = "#contact";
@@ -171,7 +277,11 @@ function Navbar() {
     );
 }
 
-function Hero() {
+function Hero({
+    baseBlueClasses,
+}: {
+    baseBlueClasses: (classes: string) => string;
+}) {
     return (
         <div className="relative h-screen flex items-center justify-center overflow-hidden">
             {/* Background video/image */}
@@ -197,10 +307,10 @@ function Hero() {
                     className="hero-card space-y-8 relative bg-white p-6 rounded-xl"
                 >
                     <h1 className="text-4xl md:text-6xl font-bold text-black">
-                        Façonnons ensemble
+                        Votre confiance,
                         <br />
-                        <span className="text-orange-500">
-                            votre transformation numérique
+                        <span className={baseBlueClasses("text-orange-500")}>
+                            notre technlogie
                         </span>
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
@@ -211,7 +321,9 @@ function Hero() {
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <Button
                             size="lg"
-                            className="bg-orange-600 hover:bg-orange-700"
+                            className={baseBlueClasses(
+                                "bg-orange-600 hover:bg-orange-700",
+                            )}
                             onClick={() =>
                                 (window.location.href = "#solutions")
                             }
@@ -232,87 +344,6 @@ function Hero() {
                 </motion.div>
             </div>
         </div>
-    );
-}
-
-const solutions = [
-    {
-        icon: Factory,
-        title: "Industrie",
-        description: "Optimisez votre production et votre chaîne logistique.",
-    },
-    {
-        icon: Banknote,
-        title: "Services Financiers",
-        description:
-            "Transformez l'expérience client et sécurisez vos transactions.",
-    },
-    {
-        icon: ShoppingBag,
-        title: "Distribution & Mode",
-        description: "Boostez vos ventes et fidélisez vos clients.",
-    },
-    {
-        icon: Building,
-        title: "Secteur Public & Environnement",
-        description:
-            "Améliorez les services publics et optimisez les ressources.",
-    },
-];
-
-function Solutions() {
-    return (
-        <section id="solutions" className="py-24 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        Solutions Numériques Sur-Mesure pour Transformer Votre
-                        Entreprise
-                    </h2>
-                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Orange Business vous accompagne dans votre
-                        transformation digitale avec des solutions innovantes,
-                        sécurisées et durables, conçues pour répondre aux défis
-                        spécifiques de votre secteur.
-                    </p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {solutions.map((solution, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5, delay: index * 0.1 }}
-                            viewport={{ once: true }}
-                        >
-                            <Card className="h-full hover:shadow-lg transition-shadow">
-                                <CardHeader>
-                                    <solution.icon className="h-10 w-10 text-orange-600" />
-                                    <CardTitle className="ml-4">
-                                        {solution.title}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <CardDescription>
-                                        {solution.description}
-                                    </CardDescription>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    ))}
-                </div>
-                <div className="mt-16 text-center">
-                    <Button
-                        variant="default"
-                        className="bg-orange-600 hover:bg-orange-700"
-                        onClick={() => (window.location.href = "#contact")}
-                    >
-                        Nous contacter pour une solution personnalisée
-                    </Button>
-                </div>
-            </div>
-        </section>
     );
 }
 
@@ -348,7 +379,13 @@ const expertiseAreas = [
     },
 ];
 
-function Expertise() {
+function Expertise({
+    baseBlueClasses,
+    iconBlueClasses,
+}: {
+    baseBlueClasses: (classes: string) => string;
+    iconBlueClasses: (classes: string) => string;
+}) {
     return (
         <section id="expertise" className="py-24 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -373,14 +410,26 @@ function Expertise() {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
                         >
-                            <Card className="h-full hover:shadow-lg transition-shadow">
-                                <CardHeader className="flex items-center gap-4">
-                                    <area.icon className="h-8 w-8 text-orange-600" />
-                                    <CardTitle className="">
-                                        {area.title}
-                                    </CardTitle>
+                            <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">
+                                <CardHeader className="flex-none">
+                                    {" "}
+                                    {/* Ajout de flex-none */}
+                                    <div className="flex items-center gap-4">
+                                        {" "}
+                                        {/* Div pour regrouper icône et titre */}
+                                        <area.icon
+                                            className={iconBlueClasses(
+                                                "h-8 w-8 text-orange-600",
+                                            )}
+                                        />
+                                        <CardTitle className="">
+                                            {area.title}
+                                        </CardTitle>
+                                    </div>
                                 </CardHeader>
-                                <CardContent>
+                                <CardContent className="py-4 flex-grow">
+                                    {" "}
+                                    {/* Ajout de padding et flex-grow */}
                                     <CardDescription>
                                         {area.description}
                                     </CardDescription>
@@ -390,51 +439,169 @@ function Expertise() {
                     ))}
                 </div>
 
-                <div className="mt-16">
-                    <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
-                        Nos Valeurs
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="text-center">
-                            <Lock className="h-12 w-12 text-orange-600 mx-auto mb-4" />
-                            <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                                Confiance & Éthique
-                            </h4>
-                            <p className="text-gray-600">
-                                Protection et gouvernance des données,
-                                transparence.
-                            </p>
-                        </div>
-                        <div className="text-center">
-                            <Users className="h-12 w-12 text-orange-600 mx-auto mb-4" />
-                            <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                                Proximité
-                            </h4>
-                            <p className="text-gray-600">
-                                20 sites en France, accompagnement personnalisé.
-                            </p>
-                        </div>
-                        <div className="text-center">
-                            <Leaf className="h-12 w-12 text-orange-600 mx-auto mb-4" />
-                            <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                                Engagement Durable
-                            </h4>
-                            <p className="text-gray-600">
-                                Réduction de l'empreinte carbone, solutions
-                                éco-responsables.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
                 <div className="mt-16 text-center">
                     <Button
                         variant="default"
-                        className="bg-orange-600 hover:bg-orange-700"
+                        className={baseBlueClasses(
+                            "bg-orange-600 hover:bg-orange-700",
+                        )}
                         onClick={() => (window.location.href = "#contact")}
                     >
                         Découvrir notre expertise
                     </Button>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+const solutions = [
+    {
+        icon: Factory,
+        title: "Industrie",
+        description: "Optimisez votre production et votre chaîne logistique.",
+    },
+    {
+        icon: Banknote,
+        title: "Services Financiers",
+        description:
+            "Transformez l'expérience client et sécurisez vos transactions.",
+    },
+    {
+        icon: ShoppingBag,
+        title: "Distribution & Mode",
+        description: "Boostez vos ventes et fidélisez vos clients.",
+    },
+    {
+        icon: Building,
+        title: "Secteur Public & Environnement",
+        description:
+            "Améliorez les services publics et optimisez les ressources.",
+    },
+];
+
+function Solutions({
+    baseBlueClasses,
+    iconBlueClasses,
+}: {
+    baseBlueClasses: (classes: string) => string;
+    iconBlueClasses: (classes: string) => string;
+}) {
+    return (
+        <section id="solutions" className="py-24 bg-gray-50">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                        Solutions Numériques Sur-Mesure pour Transformer Votre
+                        Entreprise
+                    </h2>
+                    <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Orange Business vous accompagne dans votre
+                        transformation digitale avec des solutions innovantes,
+                        sécurisées et durables, conçues pour répondre aux défis
+                        spécifiques de votre secteur.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {solutions.map((solution, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            viewport={{ once: true }}
+                        >
+                            <Card className="h-full hover:shadow-lg transition-shadow">
+                                <CardHeader>
+                                    <solution.icon
+                                        className={iconBlueClasses(
+                                            "h-10 w-10 text-orange-600",
+                                        )}
+                                    />
+                                    <CardTitle className="ml-4">
+                                        {solution.title}
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <CardDescription>
+                                        {solution.description}
+                                    </CardDescription>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                    ))}
+                </div>
+                <div className="mt-16 text-center">
+                    <Button
+                        variant="default"
+                        className={baseBlueClasses(
+                            "bg-orange-600 hover:bg-orange-700",
+                        )}
+                        onClick={() => (window.location.href = "#contact")}
+                    >
+                        Nous contacter pour une solution personnalisée
+                    </Button>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+function BrandValues({
+    baseBlueClasses,
+    iconBlueClasses,
+}: {
+    baseBlueClasses: (classes: string) => string;
+    iconBlueClasses: (classes: string) => string;
+}) {
+    return (
+        <section id="brand-values" className="pb-12 bg-white">
+            <div className="mt-16">
+                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+                    Nos Valeurs
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="text-center">
+                        <Lock
+                            className={iconBlueClasses(
+                                "h-12 w-12 text-orange-600 mx-auto mb-4",
+                            )}
+                        />
+                        <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                            Confiance & Éthique
+                        </h4>
+                        <p className="text-gray-600">
+                            Protection et gouvernance des données, transparence.
+                        </p>
+                    </div>
+                    <div className="text-center">
+                        <Users
+                            className={iconBlueClasses(
+                                "h-12 w-12 text-orange-600 mx-auto mb-4",
+                            )}
+                        />
+                        <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                            Proximité
+                        </h4>
+                        <p className="text-gray-600">
+                            20 sites en France, accompagnement personnalisé.
+                        </p>
+                    </div>
+                    <div className="text-center">
+                        <Leaf
+                            className={iconBlueClasses(
+                                "h-12 w-12 text-orange-600 mx-auto mb-4",
+                            )}
+                        />
+                        <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                            Engagement Durable
+                        </h4>
+                        <p className="text-gray-600">
+                            Réduction de l'empreinte carbone, solutions
+                            éco-responsables.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -492,10 +659,12 @@ function Partners() {
                             viewport={{ once: true }}
                             className="flex justify-center"
                         >
-                            <img
+                            <Image
                                 src={partner.logo || "/placeholder.svg"}
                                 alt={partner.name}
                                 className="h-12 object-contain filter grayscale hover:grayscale-0 transition-all"
+                                width={200}
+                                height={200}
                             />
                         </motion.div>
                     ))}
@@ -523,9 +692,15 @@ const testimonials = [
     },
 ];
 
-function Testimonials() {
+function Testimonials({
+    baseBlueClasses,
+    iconBlueClasses,
+}: {
+    baseBlueClasses: (classes: string) => string;
+    iconBlueClasses: (classes: string) => string;
+}) {
     return (
-        <section className="py-24 bg-orange-50">
+        <section className="py-24 bg-blue-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -547,7 +722,11 @@ function Testimonials() {
                         >
                             <Card className="h-full">
                                 <CardHeader>
-                                    <Quote className="h-8 w-8 text-orange-600" />
+                                    <Quote
+                                        className={iconBlueClasses(
+                                            "h-8 w-8 text-orange-600",
+                                        )}
+                                    />
                                 </CardHeader>
                                 <CardContent>
                                     <p className="text-gray-600 italic mb-6">
@@ -619,15 +798,17 @@ function CaseStudies() {
                         >
                             <Card className="h-full hover:shadow-lg transition-shadow overflow-hidden">
                                 <div className="h-48 overflow-hidden">
-                                    <img
+                                    <Image
                                         src={study.image || "/placeholder.svg"}
                                         alt={study.title}
                                         className="w-full h-full object-cover transition-transform hover:scale-105"
+                                        width={200}
+                                        height={200}
                                     />
                                 </div>
                                 <CardHeader>
                                     <CardTitle>{study.title}</CardTitle>
-                                    <CardDescription className="text-orange-600 font-medium">
+                                    <CardDescription className="text-blue-600 font-medium transition-colors duration-1000">
                                         {study.client}
                                     </CardDescription>
                                 </CardHeader>
@@ -668,7 +849,13 @@ const initiatives = [
     },
 ];
 
-function Sustainability() {
+function Sustainability({
+    baseBlueClasses,
+    iconBlueClasses,
+}: {
+    baseBlueClasses: (classes: string) => string;
+    iconBlueClasses: (classes: string) => string;
+}) {
     return (
         <section id="sustainability" className="py-24 bg-green-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -693,7 +880,11 @@ function Sustainability() {
                             <Card className="h-full text-center">
                                 <CardHeader>
                                     <div className="flex justify-center mb-4">
-                                        <initiative.icon className="h-12 w-12 text-green-600" />
+                                        <initiative.icon
+                                            className={iconBlueClasses(
+                                                "h-12 w-12 text-green-600",
+                                            )}
+                                        />
                                     </div>
                                     <CardTitle className="text-xl">
                                         {initiative.title}
@@ -713,7 +904,11 @@ function Sustainability() {
     );
 }
 
-function Contact() {
+function Contact({
+    baseBlueClasses,
+}: {
+    baseBlueClasses: (classes: string) => string;
+}) {
     const [formData, setFormData] = useState({
         name: "",
         company: "",
@@ -747,7 +942,11 @@ function Contact() {
 
                         <div className="space-y-6">
                             <div className="flex items-center gap-4">
-                                <Phone className="h-6 w-6 text-orange-600" />
+                                <Phone
+                                    className={baseBlueClasses(
+                                        "h-6 w-6 text-orange-600",
+                                    )}
+                                />
                                 <div>
                                     <h3 className="font-semibold">Téléphone</h3>
                                     <p className="text-gray-600">
@@ -757,7 +956,11 @@ function Contact() {
                             </div>
 
                             <div className="flex items-center gap-4">
-                                <Mail className="h-6 w-6 text-orange-600" />
+                                <Mail
+                                    className={baseBlueClasses(
+                                        "h-6 w-6 text-orange-600",
+                                    )}
+                                />
                                 <div>
                                     <h3 className="font-semibold">Email</h3>
                                     <p className="text-gray-600">
@@ -767,7 +970,11 @@ function Contact() {
                             </div>
 
                             <div className="flex items-center gap-4">
-                                <MapPin className="h-6 w-6 text-orange-600" />
+                                <MapPin
+                                    className={baseBlueClasses(
+                                        "h-6 w-6 text-orange-600",
+                                    )}
+                                />
                                 <div>
                                     <h3 className="font-semibold">Adresse</h3>
                                     <p className="text-gray-600">
@@ -897,7 +1104,9 @@ function Contact() {
                                     </div>
                                     <Button
                                         type="submit"
-                                        className="w-full bg-orange-600 hover:bg-orange-700"
+                                        className={baseBlueClasses(
+                                            "w-full bg-orange-600 hover:bg-orange-700",
+                                        )}
                                     >
                                         Envoyer
                                     </Button>
@@ -911,16 +1120,22 @@ function Contact() {
     );
 }
 
-function Footer() {
+function Footer({
+    baseBlueClasses,
+}: {
+    baseBlueClasses: (classes: string) => string;
+}) {
     return (
         <footer className="bg-gray-900 text-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
-                        <img
-                            src="/orange-business-logo-white.svg"
+                        <Image
+                            src="/New_Orange_Business_Logo_White_Text.png"
                             alt="Orange Business"
-                            className="h-8 mb-6"
+                            className="mb-6"
+                            width={200}
+                            height={200}
                         />
                         <p className="text-gray-400">
                             Leader de la transformation numérique et partenaire
@@ -936,7 +1151,9 @@ function Footer() {
                             <li>
                                 <a
                                     href="#"
-                                    className="text-gray-400 hover:text-orange-500"
+                                    className={baseBlueClasses(
+                                        "text-gray-400 hover:text-orange-500",
+                                    )}
                                 >
                                     Cloud & Infrastructure
                                 </a>
@@ -944,7 +1161,9 @@ function Footer() {
                             <li>
                                 <a
                                     href="#"
-                                    className="text-gray-400 hover:text-orange-500"
+                                    className={baseBlueClasses(
+                                        "text-gray-400 hover:text-orange-500",
+                                    )}
                                 >
                                     Cybersécurité
                                 </a>
@@ -952,7 +1171,9 @@ function Footer() {
                             <li>
                                 <a
                                     href="#"
-                                    className="text-gray-400 hover:text-orange-500"
+                                    className={baseBlueClasses(
+                                        "text-gray-400 hover:text-orange-500",
+                                    )}
                                 >
                                     Intelligence Artificielle
                                 </a>
@@ -960,7 +1181,9 @@ function Footer() {
                             <li>
                                 <a
                                     href="#"
-                                    className="text-gray-400 hover:text-orange-500"
+                                    className={baseBlueClasses(
+                                        "text-gray-400 hover:text-orange-500",
+                                    )}
                                 >
                                     Transformation Digitale
                                 </a>
@@ -976,7 +1199,9 @@ function Footer() {
                             <li>
                                 <a
                                     href="#"
-                                    className="text-gray-400 hover:text-orange-500"
+                                    className={baseBlueClasses(
+                                        "text-gray-400 hover:text-orange-500",
+                                    )}
                                 >
                                     À propos
                                 </a>
