@@ -341,7 +341,7 @@ function Hero({
                         <Button
                             size="lg"
                             variant="outline"
-                            className="text-white border-white hover:bg-white/10"
+                            className="text-black border-black hover:bg-black/10"
                             onClick={() =>
                                 (window.location.href = "#case-studies")
                             }
