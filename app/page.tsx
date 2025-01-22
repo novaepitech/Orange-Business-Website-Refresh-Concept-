@@ -151,27 +151,27 @@ function Navbar({
 
     return (
         <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex justify-between h-16">
+            <div className="px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between h-24">
                     <div className="flex items-center">
                         <Link href="/" className="flex-shrink-0">
                             <Image
-                                className="h-[80px] w-auto"
+                                className="h-[100px] w-auto"
                                 src={logoSrc || "/placeholder.svg"}
                                 alt="Orange Business"
-                                width={200}
-                                height={200}
+                                width={250}
+                                height={250}
                                 priority={true}
                                 fetchPriority="high"
                             />
                         </Link>
                     </div>
 
-                    <div className="hidden md:flex md:items-center md:space-x-8">
+                    <div className="hidden md:flex md:items-center md:space-x-10">
                         <Link
                             href="#solutions"
                             className={baseBlueClasses(
-                                "text-gray-700 hover:text-orange-600",
+                                "text-lg font-medium text-gray-700 hover:text-orange-600",
                             )}
                         >
                             Solutions
@@ -179,7 +179,7 @@ function Navbar({
                         <Link
                             href="#expertise"
                             className={baseBlueClasses(
-                                "text-gray-700 hover:text-orange-600",
+                                "text-lg font-medium text-gray-700 hover:text-orange-600",
                             )}
                         >
                             Expertise
@@ -187,7 +187,7 @@ function Navbar({
                         <Link
                             href="#case-studies"
                             className={baseBlueClasses(
-                                "text-gray-700 hover:text-orange-600",
+                                "text-lg font-medium text-gray-700 hover:text-orange-600",
                             )}
                         >
                             Réalisations
@@ -195,15 +195,16 @@ function Navbar({
                         <Link
                             href="#sustainability"
                             className={baseBlueClasses(
-                                "text-gray-700 hover:text-orange-600",
+                                "text-lg font-medium text-gray-700 hover:text-orange-600",
                             )}
                         >
                             RSE
                         </Link>
                         <Button
                             variant="default"
+                            size="lg"
                             className={baseBlueClasses(
-                                "bg-orange-600 hover:bg-orange-700",
+                                "bg-orange-600 hover:bg-orange-700 text-white",
                             )}
                             onClick={() => (window.location.href = "#contact")}
                         >
@@ -219,9 +220,9 @@ function Navbar({
                             )}
                         >
                             {isOpen ? (
-                                <X className="h-6 w-6" />
+                                <X className="h-8 w-8" />
                             ) : (
-                                <Menu className="h-6 w-6" />
+                                <Menu className="h-8 w-8" />
                             )}
                         </button>
                     </div>
@@ -234,7 +235,7 @@ function Navbar({
                     <Link
                         href="#solutions"
                         className={baseBlueClasses(
-                            "block px-3 py-2 text-gray-700 hover:text-orange-600",
+                            "block px-3 py-2 text-lg font-medium text-gray-700 hover:text-orange-600",
                         )}
                         onClick={() => setIsOpen(false)}
                     >
@@ -243,7 +244,7 @@ function Navbar({
                     <Link
                         href="#expertise"
                         className={baseBlueClasses(
-                            "block px-3 py-2 text-gray-700 hover:text-orange-600",
+                            "block px-3 py-2 text-lg font-medium text-gray-700 hover:text-orange-600",
                         )}
                         onClick={() => setIsOpen(false)}
                     >
@@ -252,7 +253,7 @@ function Navbar({
                     <Link
                         href="#case-studies"
                         className={baseBlueClasses(
-                            "block px-3 py-2 text-gray-700 hover:text-orange-600",
+                            "block px-3 py-2 text-lg font-medium text-gray-700 hover:text-orange-600",
                         )}
                         onClick={() => setIsOpen(false)}
                     >
@@ -261,7 +262,7 @@ function Navbar({
                     <Link
                         href="#sustainability"
                         className={baseBlueClasses(
-                            "block px-3 py-2 text-gray-700 hover:text-orange-600",
+                            "block px-3 py-2 text-lg font-medium text-gray-700 hover:text-orange-600",
                         )}
                         onClick={() => setIsOpen(false)}
                     >
@@ -269,8 +270,9 @@ function Navbar({
                     </Link>
                     <Button
                         variant="default"
+                        size="lg"
                         className={baseBlueClasses(
-                            "w-full bg-orange-600 hover:bg-orange-700 mt-4",
+                            "w-full bg-orange-600 hover:bg-orange-700 text-white mt-4",
                         )}
                         onClick={() => {
                             setIsOpen(false);
