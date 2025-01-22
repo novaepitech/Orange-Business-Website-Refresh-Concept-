@@ -580,13 +580,13 @@ function BrandValues({
     iconBlueClasses: (classes: string) => string;
 }) {
     return (
-        <section id="brand-values" className="pb-12 bg-white">
-            <div className="mt-16">
+        <section id="brand-values" className="py-12 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
                     Nos Valeurs
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="text-center">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div>
                         <Lock
                             className={iconBlueClasses(
                                 "h-12 w-12 text-orange-600 mx-auto mb-4",
@@ -599,7 +599,7 @@ function BrandValues({
                             Protection et gouvernance des données, transparence.
                         </p>
                     </div>
-                    <div className="text-center">
+                    <div>
                         <Users
                             className={iconBlueClasses(
                                 "h-12 w-12 text-orange-600 mx-auto mb-4",
@@ -612,7 +612,7 @@ function BrandValues({
                             20 sites en France, accompagnement personnalisé.
                         </p>
                     </div>
-                    <div className="text-center">
+                    <div>
                         <Leaf
                             className={iconBlueClasses(
                                 "h-12 w-12 text-orange-600 mx-auto mb-4",
