@@ -56,7 +56,7 @@ export default function Home() {
         const timer = setTimeout(() => {
             setIsLoaded(true);
             setLogoSrc("/New_Orange_Business_Logo_Black_Text.png");
-        }, 500); // 0.5 second delay
+        }, 2000); // 2 seconds delay
 
         return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
     }, []);
