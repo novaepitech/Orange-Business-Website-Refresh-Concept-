@@ -320,7 +320,7 @@ function Hero({
                         Votre confiance,
                         <br />
                         <span className={baseBlueClasses("text-orange-500")}>
-                            notre technlogie
+                            notre technologie
                         </span>
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto">
@@ -482,23 +482,27 @@ const solutions = [
         icon: Factory,
         title: "Industrie",
         description: "Optimisez votre production et votre chaîne logistique.",
+        image: "/industrie.webp",
     },
     {
         icon: Banknote,
         title: "Services Financiers",
         description:
             "Transformez l'expérience client et sécurisez vos transactions.",
+        image: "/services-financiers.webp",
     },
     {
         icon: ShoppingBag,
         title: "Distribution & Mode",
         description: "Boostez vos ventes et fidélisez vos clients.",
+        image: "/retail.jpg",
     },
     {
         icon: Building,
         title: "Secteur Public & Environnement",
         description:
             "Améliorez les services publics et optimisez les ressources.",
+        image: "/secteur_public.jpg",
     },
 ];
 
@@ -534,10 +538,21 @@ function Solutions({
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
                         >
-                            <Card className="h-full flex flex-col hover:shadow-lg transition-shadow">
+                            <Card className="h-full flex flex-col hover:shadow-lg transition-shadow overflow-hidden">
+                                {/* Added overflow-hidden to prevent image from spilling out */}
+                                <div className="relative h-48">
+                                    {/* Made image container relative */}
+                                    <Image
+                                        src={
+                                            solution.image || "/placeholder.svg"
+                                        }
+                                        alt={solution.title}
+                                        className="object-cover object-center w-full h-full" // Added object-center and changed absolute to make the image responsive
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                                    />
+                                </div>
                                 <CardHeader className="flex-none pb-0">
-                                    {" "}
-                                    {/* Suppression du padding bottom */}
                                     <div className="flex items-center gap-4">
                                         <solution.icon
                                             className={iconBlueClasses(
@@ -548,8 +563,6 @@ function Solutions({
                                     </div>
                                 </CardHeader>
                                 <CardContent className="py-4 flex-grow">
-                                    {" "}
-                                    {/* Ajout de padding et flex-grow */}
                                     <CardDescription>
                                         {solution.description}
                                     </CardDescription>
@@ -584,16 +597,20 @@ function BrandValues({
     return (
         <section id="brand-values" className="py-12 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 text-center">
+                <h3 className="text-2xl font-bold text-gray-900 mb-12 text-center">
                     Nos Valeurs
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
                     <div>
-                        <Lock
-                            className={iconBlueClasses(
-                                "h-12 w-12 text-orange-600 mx-auto mb-4",
-                            )}
-                        />
+                        <div className="mx-auto mb-4 w-[300px] h-[200px] rounded-lg overflow-hidden shadow-md">
+                            <Image
+                                src="/trust.webp"
+                                alt="Confiance & Éthique"
+                                className="w-full h-full object-cover"
+                                width={200}
+                                height={100}
+                            />
+                        </div>
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">
                             Confiance & Éthique
                         </h4>
@@ -602,11 +619,15 @@ function BrandValues({
                         </p>
                     </div>
                     <div>
-                        <Users
-                            className={iconBlueClasses(
-                                "h-12 w-12 text-orange-600 mx-auto mb-4",
-                            )}
-                        />
+                        <div className="mx-auto mb-4 w-[300px] h-[200px] rounded-lg overflow-hidden shadow-md">
+                            <Image
+                                src="/proximity.JPG"
+                                alt="Proximité"
+                                className="w-full h-full object-cover"
+                                width={200}
+                                height={100}
+                            />
+                        </div>
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">
                             Proximité
                         </h4>
@@ -615,11 +636,15 @@ function BrandValues({
                         </p>
                     </div>
                     <div>
-                        <Leaf
-                            className={iconBlueClasses(
-                                "h-12 w-12 text-orange-600 mx-auto mb-4",
-                            )}
-                        />
+                        <div className="mx-auto mb-4 w-[300px] h-[200px] rounded-lg overflow-hidden shadow-md">
+                            <Image
+                                src="/sustainability.webp"
+                                alt="Engagement Durable"
+                                className="w-full h-full object-cover"
+                                width={200}
+                                height={100}
+                            />
+                        </div>
                         <h4 className="text-lg font-semibold text-gray-900 mb-2">
                             Engagement Durable
                         </h4>
