@@ -844,7 +844,10 @@ function Sustainability({
     iconBlueClasses: (classes: string) => string;
 }) {
     return (
-        <section id="sustainability" className="py-24 bg-green-50">
+        <section
+            id="sustainability"
+            className="py-24 bg-gradient-to-b from-green-100 to-white"
+        >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -864,12 +867,13 @@ function Sustainability({
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
                         >
-                            <Card className="h-full text-center">
+                            <Card className="h-full text-center bg-white shadow-xl hover:shadow-2xl transition-shadow">
                                 <CardHeader>
                                     <div className="flex justify-center mb-4">
                                         <initiative.icon
-                                            className={iconBlueClasses(
-                                                "h-12 w-12 text-green-600",
+                                            className={cn(
+                                                iconBlueClasses("h-12 w-12"),
+                                                "text-green-500",
                                             )}
                                         />
                                     </div>
