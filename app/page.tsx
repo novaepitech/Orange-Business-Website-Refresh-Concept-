@@ -135,19 +135,20 @@ function Navbar({
     logoSrc: string;
 }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [logoOpacity, setLogoOpacity] = useState(1);
+    const [logoOpacity, setLogoOpacity] = useState(1); // Add logoOpacity state
+    const [currentLogoSrc, setCurrentLogoSrc] = useState(
+        "/Orange_Business_RGB_Master_Logo_Black_Text.png",
+    );
 
     useEffect(() => {
-        if (logoSrc === "/New_Orange_Business_Logo_Black_Text.png") {
-            // Start the fade-out
-            setLogoOpacity(0);
-
-            // After the fade-out, immediately start the fade-in
+        if (logoSrc !== currentLogoSrc) {
+            setLogoOpacity(0); // Fade out old logo
             setTimeout(() => {
-                setLogoOpacity(1);
-            }, 500); // Adjust this delay to match the CSS transition duration
+                setCurrentLogoSrc(logoSrc); // Change logo source after fade out
+                setLogoOpacity(1); // Fade in new logo
+            }, 500); // Adjust delay to match transition duration
         }
-    }, [logoSrc]);
+    }, [logoSrc, currentLogoSrc]);
 
     return (
         <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
@@ -156,8 +157,9 @@ function Navbar({
                     <div className="flex items-center">
                         <Link href="/" className="flex-shrink-0">
                             <Image
-                                className="h-[100px] w-auto"
-                                src={logoSrc || "/placeholder.svg"}
+                                className="h-[100px] w-auto transition-opacity duration-500" // Add transition-opacity class
+                                style={{ opacity: logoOpacity }} // Control opacity with state
+                                src={currentLogoSrc || "/placeholder.svg"}
                                 alt="Orange Business"
                                 width={250}
                                 height={250}
