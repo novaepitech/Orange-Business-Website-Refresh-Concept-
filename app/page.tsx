@@ -112,15 +112,15 @@ export default function Home() {
                 baseBlueClasses={baseBlueClasses}
                 iconBlueClasses={iconBlueClasses}
             />
+            <Sustainability
+                baseBlueClasses={baseBlueClasses}
+                iconBlueClasses={iconBlueClasses}
+            />
             <Testimonials
                 baseBlueClasses={baseBlueClasses}
                 iconBlueClasses={iconBlueClasses}
             />
             <CaseStudies />
-            <Sustainability
-                baseBlueClasses={baseBlueClasses}
-                iconBlueClasses={iconBlueClasses}
-            />
             <Contact baseBlueClasses={baseBlueClasses} />
             <Footer baseBlueClasses={baseBlueClasses} />
         </main>
